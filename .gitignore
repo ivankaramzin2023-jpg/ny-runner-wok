@@ -2,3 +2,15 @@
 Thumbs.db
 Desktop.ini
 *.tmp
+*.log
+
+# AI & Agent local directories
+.agents/
+.agent/
+.skills/
+skills/
+.gemini/
+.claude/
+.cursor/
+*.md
+scratch_*.py
