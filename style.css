@@ -427,6 +427,7 @@ iframe[src*="netlify"] {
     flex-shrink: 0;
     pointer-events: none;
     filter: drop-shadow(0 6px 16px rgba(10, 45, 90, 0.20));
+    image-rendering: -webkit-optimize-contrast;
 }
 
 .rules-card-container {
@@ -999,6 +1000,7 @@ iframe[src*="netlify"] {
    SCREEN 5: Финальный экран "СПАСИБО ЗА ВИЗИТ!"
    (Расположение и масштаб элементов 1:1 из игра 3 в ряд)
    ======================================================== */
+#finalScreen,
 .exit-screen-container {
     position: absolute;
     inset: 0;

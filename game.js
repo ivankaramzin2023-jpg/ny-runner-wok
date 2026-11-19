@@ -1247,6 +1247,9 @@ class Game {
     startGameplay() {
         this.lastTime = performance.now();
         this.state = 'PLAYING';
+        if (this.player) {
+            this.player.invulnerableTimer = 0;
+        }
 
         // Immediately spawn first obstacle wave outside screen — no empty screens at track start!
         this.spawnWave();
@@ -3197,18 +3200,11 @@ class Game {
 
 
 
-        if (this.player.invulnerableTimer > 0) {
-
-
-
+        if (this.state === 'PLAYING' && this.player.invulnerableTimer > 0) {
             const flash = Math.floor(this.player.invulnerableTimer * 12) % 2 === 0;
-
-
-
             ctx.globalAlpha = flash ? 0.35 : 0.85;
-
-
-
+        } else {
+            ctx.globalAlpha = 1.0;
         }
 
 
