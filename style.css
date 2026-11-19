@@ -251,8 +251,8 @@ iframe[src*="netlify"] {
     align-items: center;
     z-index: 10;
     pointer-events: none;
-    margin-top: 4px;
-    margin-bottom: 0;
+    margin-top: -10px;
+    margin-bottom: -15px;
 }
 
 .santa-glow-circle {
@@ -273,19 +273,22 @@ iframe[src*="netlify"] {
 }
 
 .cover-santa {
-    max-width: min(290px, 76vw);
-    max-height: 92%;
+    max-width: min(440px, 96vw);
+    max-height: 108%;
     width: auto;
     height: auto;
     object-fit: contain;
     pointer-events: none;
     filter: drop-shadow(0 10px 24px rgba(10, 45, 90, 0.16));
-    animation: coverSantaFloat 3.8s ease-in-out infinite;
+    animation: coverSantaFloat 3.6s ease-in-out infinite;
     transform-origin: center bottom;
 }
 
 @keyframes coverSantaFloat {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
+    0%, 100% { transform: scale(1.14) translateY(0) rotate(0deg); }
+    30% { transform: scale(1.14) translateY(-6px) rotate(1.2deg); }
+    70% { transform: scale(1.14) translateY(-2px) rotate(-1deg); }
+}
     30% { transform: translateY(-5px) rotate(0.8deg); }
     70% { transform: translateY(-2px) rotate(-0.8deg); }
 }
@@ -303,7 +306,7 @@ iframe[src*="netlify"] {
     position: relative;
     width: 100%;
     max-width: 100%;
-    height: clamp(235px, 31vh, 275px);
+    height: clamp(250px, 34vh, 305px);
     flex-shrink: 0;
     z-index: 8;
     display: flex;
@@ -336,42 +339,38 @@ iframe[src*="netlify"] {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: clamp(48px, 6.5vh, 60px);
+    padding-top: clamp(34px, 4.8vh, 44px);
     padding-left: 20px;
     padding-right: 20px;
-    padding-bottom: calc(max(14px, env(safe-area-inset-bottom)) + 10px);
+    padding-bottom: calc(max(16px, env(safe-area-inset-bottom)) + 6px);
     pointer-events: auto;
 }
 
 .cover-text-group {
-    width: min(320px, 86vw);
+    width: min(320px, 88vw);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    gap: 7px;
-    margin-bottom: clamp(12px, 1.8vh, 18px);
+    margin-bottom: clamp(10px, 1.8vh, 18px);
     flex-shrink: 0;
 }
 
 .cover-title-img {
-    width: min(300px, 84vw);
+    width: calc(min(320px, 88vw) * (289 / 312));
     height: auto;
-    max-height: 28px;
     object-fit: contain;
     display: block;
-    pointer-events: none;
-    filter: drop-shadow(0 2px 4px rgba(10, 45, 90, 0.08));
+    margin-bottom: 8px;
+    flex-shrink: 0;
 }
 
 .cover-subtitle-img {
-    width: min(280px, 78vw);
+    width: 100%;
     height: auto;
-    max-height: 22px;
     object-fit: contain;
     display: block;
-    pointer-events: none;
-    filter: drop-shadow(0 1px 3px rgba(10, 45, 90, 0.06));
+    flex-shrink: 0;
 }
 
 .cover-play-btn {
@@ -386,14 +385,12 @@ iframe[src*="netlify"] {
     align-items: center;
     transition: transform 0.12s ease, filter 0.12s ease;
     margin-top: auto;
-    margin-bottom: 2px;
     flex-shrink: 0;
 }
 
 .cover-play-btn-img {
-    width: min(330px, 86vw);
+    width: min(340px, 88vw);
     height: auto;
-    max-height: 54px;
     object-fit: contain;
     display: block;
     pointer-events: none;
