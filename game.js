@@ -1163,7 +1163,7 @@ class Game {
             this.player.y = safeStartY;
             this.player.vy = 0;
             this.player.rotation = 0;
-            this.player.invulnerableTimer = 1.0;
+            this.player.invulnerableTimer = 0;
             this.player.isThrusting = false;
         }
 
