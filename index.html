@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#7bb5e8">
+    <title>Новогодняя Игра — Полет Деда Мороза на воке</title>
+    <link rel="stylesheet" href="style.css?v=2.2.0">
+    <!-- Non-blocking high performance font loading (instant page load on mobile) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Oranienbaum&family=Rubik:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&display=swap" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Oranienbaum&family=Rubik:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&display=swap">
+    </noscript>
+    <!-- Preload critical screen transition assets for 100% flicker-free navigation -->
+    <link rel="preload" as="image" href="assets/rules_fir_tree.webp">
+    <link rel="preload" as="image" href="assets/rules_card_bg.webp">
+    <link rel="preload" as="image" href="assets/rules_title_banner.webp">
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- Universal Background Sky (Stable, single background for 100% flicker-free transitions) -->
+        <img id="bgSky" src="assets/01_cover_bg.webp" class="figma-bg-sky" alt="Фон неба">
+
+        <!-- Dynamic Falling Snow Canvas -->
+        <canvas id="snowCanvas"></canvas>
+
+        <!-- Main Game Canvas (World, Obstacles, Food, Santa) -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Gameplay HUD (Matches Figma node 1107:8 1:1) -->
+        <div id="hud" class="hidden">
+            <div class="hud-top-bar">
+                <div id="heartsContainer" class="hud-hearts">
+                    <img src="assets/heart.webp" class="hud-heart active" alt="Жизнь 1">
+                    <img src="assets/heart.webp" class="hud-heart active" alt="Жизнь 2">
+                    <img src="assets/heart.webp" class="hud-heart active" alt="Жизнь 3">
+                </div>
+                <div id="scoreBadge" class="hud-score-badge">БАЛЛЫ: 0 / 300</div>
+            </div>
+
+            <!-- Full-width Progress Bar with Sliding Santa -->
+            <div class="hud-progress-container">
+                <div class="hud-progress-track">
+                    <div id="progressFill" class="hud-progress-fill"></div>
+                    <img id="progressCoin" src="assets/progress_santa.webp" class="hud-progress-coin" alt="Дед Мороз">
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 1: Cover Screen -->
+        <div id="startScreen" class="cover-elements-container">
+            <div class="cover-top-box">
+                <img src="assets/cover_title_banner.webp" class="cover-ribbon-banner" alt="Новогодняя Игра">
+            </div>
+            <div class="cover-santa-wrapper">
+                <img src="assets/cover_santa.webp" class="cover-santa" alt="Дед Мороз на воке">
+            </div>
+            <div class="cover-bottom-plate-box">
+                <img src="assets/cover_plate.webp" class="cover-plate-bg" alt="Плашка">
+                <div class="cover-plate-content">
+                    <img src="assets/cover_title.webp" class="cover-title-img" alt="Играйте и получайте бонусы">
+                    <img src="assets/cover_subtitle.webp" class="cover-subtitle-img" alt="Каждый визит в ресторан открывает следующую игру">
+                    <button id="playBtn" class="cover-play-btn" type="button" aria-label="ИГРАТЬ">
+                        <img src="assets/cover_btn_play.webp" class="cover-play-btn-img" alt="ИГРАТЬ">
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- SCREEN 2: Rules (Rubber 3-zone layout with new integrated plate) -->
+        <div id="rulesScreen" class="cover-elements-container rules-screen-container hidden">
+            <!-- Зимняя ель слева (Figma 1:1) -->
+            <img src="assets/rules_fir_tree.webp" class="rules-fir-tree" alt="Елка">
+
+            <!-- 1. Top Zone: Синяя лента "ПРОБНЫЙ ПОЛЕТ" -->
+            <div class="rules-top-group">
+                <img src="assets/rules_title_banner.webp" class="rules-ribbon-banner" alt="Пробный полет">
+            </div>
+
+            <!-- 2. Middle Zone: Новая плашка со встроенным заголовком "ПРАВИЛА" и отдельной версткой каждого элемента -->
+            <div class="rules-middle-wrapper">
+                <div class="rules-middle-group">
+                    <div class="rules-card-unit">
+                        <img src="assets/rules_card_bg.webp" class="rules-card-bg" alt="Карточка правил">
+                        <div class="rules-card-content">
+                            <img src="assets/rules_heading.webp" class="rules-heading-img" alt="ПРАВИЛА">
+                            <div class="rules-list">
+                                <div class="rule-item">
+                                    <div class="rule-icon-box">
+                                        <img src="assets/hand_tap.webp" class="icon-hand" alt="Нажатие">
+                                    </div>
+                                    <div class="rule-desc">
+                                        <b>Нажимайте</b> на экран —<br>
+                                        Дед Мороз поднимается.<br>
+                                        <b>Отпустите</b> — снижается
+                                    </div>
+                                </div>
+                                <div class="rule-item">
+                                    <div class="rule-icon-box">
+                                        <img src="assets/onigiri.webp" class="icon-onigiri" alt="Блюдо">
+                                    </div>
+                                    <div class="rule-desc">
+                                        Собирайте блюда.<br>
+                                        <b>Цель: 15 блюд до финиша</b>
+                                    </div>
+                                </div>
+                                <div class="rule-item">
+                                    <div class="rule-icon-box">
+                                        <img src="assets/heart.webp" class="icon-heart" alt="Сердце">
+                                    </div>
+                                    <div class="rule-desc">
+                                        Облетайте препятствия.<br>
+                                        <b>1 сердце — 1 попытка.</b><br>
+                                        <b>Удар — конец попытки</b>
+                                    </div>
+                                </div>
+                                <div class="rule-item">
+                                    <div class="rule-icon-box">
+                                        <img src="assets/coin_lb.webp" class="icon-coin" alt="Бонусы">
+                                    </div>
+                                    <div class="rule-desc">
+                                        Максимальное кол-во<br>
+                                        <b>бонусов на этом уровне: 300</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Authentic Food Stickers Attached to Card Bottom -->
+                        <img src="assets/dango.webp" class="rules-sticker rules-sticker-dango" alt="Данго">
+                        <img src="assets/bao.webp" class="rules-sticker rules-sticker-bao" alt="Баоцзы">
+                        <img src="assets/icecream.webp" class="rules-sticker rules-sticker-icecream" alt="Мороженое">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Bottom Zone: Кнопка СТАРТ -->
+            <div class="rules-bottom-group">
+                <button id="startBtn" class="cover-play-btn rules-start-btn" type="button" aria-label="СТАРТ">
+                    <img src="assets/rules_btn_start.webp" class="rules-start-btn-img" alt="СТАРТ">
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Countdown (3..2..1) -->
+        <div id="countdownOverlay" class="screen-overlay hidden">
+            <div class="countdown-card">
+                <img id="cnt3" class="countdown-number" src="assets/count_3.webp" alt="3">
+                <img id="cnt2" class="countdown-number" src="assets/count_2.webp" alt="2">
+                <img id="cnt1" class="countdown-number" src="assets/count_1.webp" alt="1">
+            </div>
+        </div>
+
+        <!-- Pause Modal -->
+        <div id="pauseModal" class="modal-overlay hidden">
+            <div class="modal-card">
+                <h2>ИГРА НА ПАУЗЕ</h2>
+                <p style="margin: 10px 0 20px; color: #555;">Сделайте перерыв и возвращайтесь к полету!</p>
+                <button id="resumeBtn" class="modal-primary-btn" type="button">ПРОДОЛЖИТЬ</button>
+            </div>
+        </div>
+
+        <!-- SCREEN 4: Экран результатов (УРОВЕНЬ: ЧЕМПИОН) 1:1 как в игра_ловля -->
+        <div id="resultScreen" class="result-screen-container hidden">
+            <!-- Зимняя ель слева (Figma 1:1) -->
+            <img src="assets/rules_fir_tree.webp" class="rules-fir-tree" alt="Елка">
+
+            <!-- Верхняя лента "УРОВЕНЬ: ЧЕМПИОН" -->
+            <div class="result-top-box">
+                <img src="assets/result_title_banner.webp" class="result-ribbon-banner" alt="Уровень: Чемпион">
+            </div>
+
+            <!-- Центральная плашка с блюдами и динамическими баллами -->
+            <div class="result-card-container">
+                <div class="result-card-box">
+                    <img src="assets/result_plate_card.webp" class="result-plate-bg" alt="Вы заработали">
+                    <div class="result-card-content">
+                        <!-- Динамические баллы "+300" и монетка LB -->
+                        <div class="result-score-row">
+                            <span id="resultScoreValue" class="result-score-text">+300</span>
+                            <img src="assets/result_coin.webp" class="result-coin-icon" alt="LB Монета">
+                        </div>
+                        <!-- Текстовый блок попыток и лучшего результата -->
+                        <div class="result-stats-block">
+                            <div id="resultAttemptsText" class="result-stat-line">Осталось попыток: 2/3</div>
+                            <div id="resultBestScoreText" class="result-stat-line">Ваш лучший результат: 300</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Нижний блок кнопок: Забрать бонусы + Попробовать еще раз -->
+            <div class="result-bottom-box">
+                <button id="btnClaimBonus" class="result-action-btn" type="button" aria-label="Забрать бонусы">
+                    <img src="assets/result_btn_claim.webp" class="result-btn-img" alt="Забрать бонусы">
+                </button>
+                <button id="btnRetryGame" class="result-action-btn" type="button" aria-label="Попробовать еще раз">
+                    <img src="assets/result_btn_retry.webp" class="result-btn-img" alt="Попробовать еще раз">
+                </button>
+            </div>
+        </div>
+
+        <!-- SCREEN 5: Финальный экран "СПАСИБО ЗА ВИЗИТ!" (1:1 по макету) -->
+        <div id="finalScreen" class="final-screen-container hidden">
+            <!-- Полноэкранный фон (небо, матовая плашка и нижние сугробы) -->
+            <img src="assets/final_screen_bg.webp" class="final-screen-bg" alt="Фон финала">
+
+            <!-- Верхняя праздничная лента "СПАСИБО ЗА ВИЗИТ!" -->
+            <div class="final-top-box">
+                <img src="assets/final_title_banner.webp" class="final-ribbon-banner" alt="Спасибо за визит!">
+            </div>
+
+            <!-- Персонаж: Дед Мороз в воздушном шаре-воке с картой LB -->
+            <div class="final-santa-wrapper">
+                <img src="assets/final_santa_balloon.webp" class="final-santa-img" alt="Дед Мороз в воке с картой LB Бонус">
+            </div>
+
+            <!-- Нижняя область контента плашки: тексты и кнопка "ВЫЙТИ" -->
+            <div class="final-content-area">
+                <div class="final-text-group">
+                    <h2 class="final-heading">Бонусы уже на карте<br>лояльности!<br>Ждем вас снова!</h2>
+                    <p class="final-subheading">Играйте и получайте бонусы. Каждый визит в ресторан открывает следующую игру</p>
+                    <p class="final-footnote">Списывайте до 20% от стоимости заказа в любом проекте LB Бонус до 31.01</p>
+                </div>
+                <div class="final-btn-wrapper">
+                    <button id="btnFinalExit" class="final-exit-btn" type="button" aria-label="ВЫЙТИ">
+                        <img src="assets/final_btn_exit.webp" class="final-btn-exit-img" alt="ВЫЙТИ">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="game.js?v=2.2.0"></script>
+</body>
+</html>
