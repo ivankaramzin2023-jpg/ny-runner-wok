@@ -8,7 +8,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#7bb5e8">
     <title>Новогодняя Игра — Полет Деда Мороза на воке</title>
-    <link rel="stylesheet" href="style.css?v=3.0.0">
+    <link rel="stylesheet" href="style.css?v=3.2.0">
     <!-- Non-blocking high performance font loading (instant page load on mobile) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Oranienbaum&family=Rubik:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&display=swap">
     </noscript>
     <!-- Preload critical screen transition assets for 100% flicker-free navigation -->
-    <link rel="preload" as="image" href="assets/rules_title_banner.webp?v=3.0.0">
+    <link rel="preload" as="image" href="assets/rules_title_banner.webp?v=3.2.0">
     <link rel="preload" as="image" href="assets/rules_card_1.webp">
     <link rel="preload" as="image" href="assets/rules_card_2.webp">
     <link rel="preload" as="image" href="assets/rules_card_3.webp">
@@ -65,13 +65,16 @@
                 <img src="assets/cover_title_banner.webp" class="cover-ribbon-banner" alt="Новогодняя Игра">
             </div>
             <div class="cover-santa-wrapper">
+                <div class="santa-glow-circle"></div>
                 <img src="assets/cover_santa.webp" class="cover-santa" alt="Дед Мороз на воке">
             </div>
             <div class="cover-bottom-plate-box">
                 <img src="assets/cover_plate.webp" class="cover-plate-bg" alt="Плашка">
                 <div class="cover-plate-content">
-                    <img src="assets/cover_title.webp" class="cover-title-img" alt="Играйте и получайте бонусы">
-                    <img src="assets/cover_subtitle.webp" class="cover-subtitle-img" alt="Каждый визит в ресторан открывает следующую игру">
+                    <div class="cover-text-group">
+                        <img src="assets/cover_title.webp?v=3.1.0" class="cover-title-img" alt="Играйте и получайте бонусы">
+                        <img src="assets/cover_subtitle.webp?v=3.1.0" class="cover-subtitle-img" alt="Каждый визит в ресторан открывает следующую игру">
+                    </div>
                     <button id="playBtn" class="cover-play-btn" type="button" aria-label="ИГРАТЬ">
                         <img src="assets/cover_btn_play.webp" class="cover-play-btn-img" alt="ИГРАТЬ">
                     </button>
@@ -82,7 +85,7 @@
         <div id="rulesScreen" class="rules-screen-container hidden">
             <!-- 1. Top Ribbon Banner -->
             <div class="rules-top-box">
-                <img src="assets/rules_title_banner.webp?v=3.0.0" class="rules-ribbon-banner" alt="Правила">
+                <img src="assets/rules_title_banner.webp?v=3.2.0" class="rules-ribbon-banner" alt="Правила">
             </div>
 
             <!-- 2. Central Card Slider & Pagination Dots -->
@@ -207,6 +210,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="game.js?v=3.0.0"></script>
+    <script src="game.js?v=3.2.0"></script>
 </body>
 </html>

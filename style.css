@@ -201,14 +201,12 @@ iframe[src*="netlify"] {
 }
 
 /* ========================================================
-   SCREEN 1: Cover Screen (Matches Figma mockup 1:1)
-   ======================================================== */
-/* ========================================================
-   SCREEN 1: COVER SCREEN (Масштаб элементов 1:1 из игра 3 в ряд)
+   SCREEN 1: ОБЛОЖКА ИГРЫ (1:1 из игра_ловля)
    ======================================================== */
 .cover-elements-container {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -216,9 +214,10 @@ iframe[src*="netlify"] {
     align-items: center;
     justify-content: space-between;
     padding: 0;
-    z-index: 20;
+    z-index: 5;
     pointer-events: none;
     overflow: hidden;
+    transition: opacity 0.3s ease-out;
 }
 
 .cover-top-box {
@@ -243,24 +242,23 @@ iframe[src*="netlify"] {
 }
 
 .cover-santa-wrapper {
-    position: absolute;
-    top: 24%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(290px, 76vw);
-    height: 41%;
-    max-height: 360px;
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 10;
     pointer-events: none;
+    margin-top: -10px;
+    margin-bottom: -15px;
 }
 
 .santa-glow-circle {
     position: absolute;
-    width: 320px;
-    height: 320px;
+    width: clamp(240px, 36vh, 320px);
+    height: clamp(240px, 36vh, 320px);
     border-radius: 50%;
     background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(200, 235, 255, 0.2) 50%, rgba(255, 255, 255, 0) 75%);
     filter: blur(14px);
@@ -275,40 +273,50 @@ iframe[src*="netlify"] {
 }
 
 .cover-santa {
-    width: 100%;
-    height: 100%;
+    max-width: min(440px, 96vw);
+    max-height: 108%;
+    width: auto;
+    height: auto;
     object-fit: contain;
     pointer-events: none;
     filter: drop-shadow(0 10px 24px rgba(10, 45, 90, 0.16));
-    animation: santaWalkFloat 3.6s ease-in-out infinite;
+    animation: coverSantaFloat 3.6s ease-in-out infinite;
+    transform-origin: center bottom;
+}
+
+@keyframes coverSantaFloat {
+    0%, 100% { transform: scale(1.14) translateY(0) rotate(0deg); }
+    30% { transform: scale(1.14) translateY(-6px) rotate(1.2deg); }
+    70% { transform: scale(1.14) translateY(-2px) rotate(-1deg); }
 }
 
 @keyframes santaWalkFloat {
     0%, 100% { transform: translateY(0) rotate(0deg); }
-    30% { transform: translateY(-6px) rotate(-1deg); }
-    70% { transform: translateY(-3px) rotate(1.2deg); }
+    30% { transform: translateY(-6px) rotate(1.2deg); }
+    70% { transform: translateY(-2px) rotate(-1deg); }
 }
 
 .cover-bottom-plate-box {
-    position: absolute;
-    bottom: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 39.5%;
-    min-height: 275px;
-    max-height: 345px;
+    max-width: 100%;
+    height: clamp(250px, 34vh, 305px);
+    flex-shrink: 0;
     z-index: 8;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+    margin-top: auto;
+    margin-bottom: 0;
     overflow: visible;
     pointer-events: none;
 }
 
 .cover-plate-bg {
     position: absolute;
-    inset: 0;
+    bottom: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: fill;
@@ -324,68 +332,76 @@ iframe[src*="netlify"] {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding-top: clamp(40px, 6vh, 52px);
-    padding-left: clamp(20px, 5.5vw, 26px);
-    padding-right: clamp(20px, 5.5vw, 26px);
-    padding-bottom: calc(max(14px, env(safe-area-inset-bottom)) + 12px);
-    box-sizing: border-box;
+    justify-content: flex-start;
+    padding-top: clamp(34px, 4.8vh, 44px);
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: calc(max(16px, env(safe-area-inset-bottom)) + 6px);
     pointer-events: auto;
 }
 
+.cover-text-group {
+    width: min(320px, 88vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: clamp(10px, 1.8vh, 18px);
+    flex-shrink: 0;
+}
+
 .cover-title-img {
-    width: min(310px, 86%);
+    width: min(310px, 88vw);
     height: auto;
-    max-height: 34px;
+    max-height: 32px;
     object-fit: contain;
-    margin-bottom: 4px;
-    pointer-events: none;
+    display: block;
+    margin-bottom: 8px;
+    flex-shrink: 0;
     filter: drop-shadow(0 2px 4px rgba(10, 45, 90, 0.08));
 }
 
 .cover-subtitle-img {
-    width: min(280px, 78%);
+    width: min(290px, 84vw);
     height: auto;
-    max-height: 40px;
+    max-height: 24px;
     object-fit: contain;
-    margin-bottom: 8px;
-    pointer-events: none;
+    display: block;
+    flex-shrink: 0;
     filter: drop-shadow(0 1px 3px rgba(10, 45, 90, 0.06));
 }
 
 .cover-play-btn {
-    width: 100%;
-    max-width: 340px;
-    height: auto;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background: transparent;
     border: none;
     outline: none;
     cursor: pointer;
     padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: transform 0.12s ease, filter 0.12s ease;
-    -webkit-tap-highlight-color: transparent;
-    pointer-events: auto;
+    margin-top: auto;
+    flex-shrink: 0;
 }
 
 .cover-play-btn-img {
-    width: min(330px, 86vw);
+    width: min(340px, 88vw);
     height: auto;
-    display: block;
     object-fit: contain;
-    filter: drop-shadow(0 6px 16px rgba(220, 40, 40, 0.35));
+    display: block;
+    pointer-events: none;
+    filter: drop-shadow(0 8px 24px rgba(220, 45, 45, 0.40));
 }
 
 .cover-play-btn:active {
-    transform: scale(0.97);
+    transform: scale(0.96);
     filter: brightness(0.95);
 }
 
 /* ========================================================
-   SCREEN 2: Rules Slider Screen (1:1 как в игра_ловля)
+   SCREEN 2: ЭКРАН ПРАВИЛ (1:1 из игра_ловля)
    ======================================================== */
 .rules-screen-container {
     position: absolute;
@@ -398,7 +414,7 @@ iframe[src*="netlify"] {
     align-items: center;
     justify-content: space-between;
     padding-bottom: calc(max(10px, env(safe-area-inset-bottom)) + 2px);
-    z-index: 20;
+    z-index: 10;
     pointer-events: auto;
     overflow: hidden;
     animation: fadeInScreen 0.28s ease-out;
@@ -413,7 +429,7 @@ iframe[src*="netlify"] {
     width: 100%;
     display: flex;
     justify-content: center;
-    padding-top: calc(max(6px, env(safe-area-inset-top)));
+    padding-top: calc(max(4px, env(safe-area-inset-top)));
     z-index: 11;
     flex-shrink: 0;
     pointer-events: none;
@@ -444,7 +460,7 @@ iframe[src*="netlify"] {
 }
 
 .rules-card-slot {
-    width: min(280px, 74vw);
+    width: min(324px, 84vw);
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -461,6 +477,7 @@ iframe[src*="netlify"] {
     pointer-events: none;
     user-select: none;
     display: block;
+    transition: opacity 0.15s ease-out;
 }
 
 .rules-pagination {
@@ -520,7 +537,6 @@ iframe[src*="netlify"] {
     justify-content: center;
     align-items: center;
     transition: transform 0.12s ease, filter 0.12s ease;
-    -webkit-tap-highlight-color: transparent;
 }
 
 .rules-btn-skip {
@@ -546,7 +562,6 @@ iframe[src*="netlify"] {
     transform: scale(0.96);
     filter: brightness(0.95);
 }
-
 
 /* ========================================================
    SCREEN 4: RESULT SCREEN (Размер плашек и кнопок 1:1 из игра 3 в ряд)
@@ -954,47 +969,7 @@ iframe[src*="netlify"] {
     transform: scale(0.96);
 }
 
-/* Short Screen Adaptations for Cover Screen (Height <= 720px) */
-@media (max-height: 720px) {
-    .cover-top-box {
-        padding-top: calc(max(8px, env(safe-area-inset-top)) + 2px);
-    }
-    .cover-ribbon-banner {
-        width: min(290px, 84vw);
-    }
-    .cover-santa-wrapper {
-        top: 76px;
-        height: 390px;
-        width: min(390px, 108vw);
-    }
-    .cover-bottom-plate-box {
-        height: 200px;
-        margin-bottom: 0;
-    }
-    .cover-plate-content {
-        padding-top: 46px;
-        padding-bottom: calc(max(8px, env(safe-area-inset-bottom)) + 8px);
-    }
-    .cover-title-img {
-        width: min(240px, 72%);
-        margin-bottom: 4px;
-    }
-    .cover-subtitle-img {
-        width: min(180px, 54%);
-        margin-bottom: 8px;
-    }
-    .cover-play-btn {
-        width: min(260px, 75%);
-        height: 44px;
-        font-size: 17px;
-        border-radius: 16px;
-    }
-    #playBtn.cover-play-btn {
-        width: min(290px, 84vw);
-        height: auto;
-        margin-top: -6px;
-    }
-}
+
 
 /* ========================================================
    SCREEN 5: Финальный экран "СПАСИБО ЗА ВИЗИТ!"
@@ -1040,12 +1015,12 @@ iframe[src*="netlify"] {
 
 .exit-santa-wrapper {
     position: absolute;
-    top: 24%;
+    top: 20%;
     left: 50%;
     transform: translateX(-50%);
-    width: min(290px, 76vw);
-    height: 41%;
-    max-height: 360px;
+    width: min(334px, 88vw);
+    height: 47%;
+    max-height: 414px;
     display: flex;
     justify-content: center;
     align-items: center;
