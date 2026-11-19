@@ -17,9 +17,16 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Oranienbaum&family=Rubik:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&display=swap">
     </noscript>
     <!-- Preload critical screen transition assets for 100% flicker-free navigation -->
-    <link rel="preload" as="image" href="assets/rules_fir_tree.webp">
-    <link rel="preload" as="image" href="assets/rules_card_bg.webp">
     <link rel="preload" as="image" href="assets/rules_title_banner.webp">
+    <link rel="preload" as="image" href="assets/rules_card_1.webp">
+    <link rel="preload" as="image" href="assets/rules_card_2.webp">
+    <link rel="preload" as="image" href="assets/rules_card_3.webp">
+    <link rel="preload" as="image" href="assets/rules_card_4.webp">
+    <link rel="preload" as="image" href="assets/rules_card_5.webp">
+    <link rel="preload" as="image" href="assets/rules_card_6.webp">
+    <link rel="preload" as="image" href="assets/btn_next.svg">
+    <link rel="preload" as="image" href="assets/btn_skip.svg">
+    <link rel="preload" as="image" href="assets/rules_btn_start.webp">
 </head>
 <body>
     <div id="gameContainer">
@@ -71,78 +78,43 @@
                 </div>
             </div>
         </div>
-        <!-- SCREEN 2: Rules (Rubber 3-zone layout with new integrated plate) -->
-        <div id="rulesScreen" class="cover-elements-container rules-screen-container hidden">
-            <!-- Зимняя ель слева (Figma 1:1) -->
-            <img src="assets/rules_fir_tree.webp" class="rules-fir-tree" alt="Елка">
-
-            <!-- 1. Top Zone: Синяя лента "ПРОБНЫЙ ПОЛЕТ" -->
-            <div class="rules-top-group">
-                <img src="assets/rules_title_banner.webp" class="rules-ribbon-banner" alt="Пробный полет">
+        <!-- SCREEN 2: Rules Slider Screen (6 правил 1:1 как в игра_ловля) -->
+        <div id="rulesScreen" class="rules-screen-container hidden">
+            <!-- 1. Top Ribbon Banner -->
+            <div class="rules-top-box">
+                <img src="assets/rules_title_banner.webp" class="rules-ribbon-banner" alt="Правила">
             </div>
 
-            <!-- 2. Middle Zone: Новая плашка со встроенным заголовком "ПРАВИЛА" и отдельной версткой каждого элемента -->
-            <div class="rules-middle-wrapper">
-                <div class="rules-middle-group">
-                    <div class="rules-card-unit">
-                        <img src="assets/rules_card_bg.webp" class="rules-card-bg" alt="Карточка правил">
-                        <div class="rules-card-content">
-                            <img src="assets/rules_heading.webp" class="rules-heading-img" alt="ПРАВИЛА">
-                            <div class="rules-list">
-                                <div class="rule-item">
-                                    <div class="rule-icon-box">
-                                        <img src="assets/hand_tap.webp" class="icon-hand" alt="Нажатие">
-                                    </div>
-                                    <div class="rule-desc">
-                                        <b>Нажимайте</b> на экран —<br>
-                                        Дед Мороз поднимается.<br>
-                                        <b>Отпустите</b> — снижается
-                                    </div>
-                                </div>
-                                <div class="rule-item">
-                                    <div class="rule-icon-box">
-                                        <img src="assets/onigiri.webp" class="icon-onigiri" alt="Блюдо">
-                                    </div>
-                                    <div class="rule-desc">
-                                        Собирайте блюда.<br>
-                                        <b>Цель: 15 блюд до финиша</b>
-                                    </div>
-                                </div>
-                                <div class="rule-item">
-                                    <div class="rule-icon-box">
-                                        <img src="assets/heart.webp" class="icon-heart" alt="Сердце">
-                                    </div>
-                                    <div class="rule-desc">
-                                        Облетайте препятствия.<br>
-                                        <b>1 сердце — 1 попытка.</b><br>
-                                        <b>Удар — конец попытки</b>
-                                    </div>
-                                </div>
-                                <div class="rule-item">
-                                    <div class="rule-icon-box">
-                                        <img src="assets/coin_lb.webp" class="icon-coin" alt="Бонусы">
-                                    </div>
-                                    <div class="rule-desc">
-                                        Максимальное кол-во<br>
-                                        <b>бонусов на этом уровне: 300</b>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Authentic Food Stickers Attached to Card Bottom -->
-                        <img src="assets/dango.webp" class="rules-sticker rules-sticker-dango" alt="Данго">
-                        <img src="assets/bao.webp" class="rules-sticker rules-sticker-bao" alt="Баоцзы">
-                        <img src="assets/icecream.webp" class="rules-sticker rules-sticker-icecream" alt="Мороженое">
-                    </div>
+            <!-- 2. Central Card Slider & Pagination Dots -->
+            <div class="rules-card-container">
+                <div id="rulesCardSlot" class="rules-card-slot">
+                    <img src="assets/rules_card_1.webp" class="rules-card-img" alt="Правило 1: Время взлетать!">
+                </div>
+                <div id="rulesPagination" class="rules-pagination">
+                    <span class="pagination-dot active" data-index="0"></span>
+                    <span class="pagination-dot" data-index="1"></span>
+                    <span class="pagination-dot" data-index="2"></span>
+                    <span class="pagination-dot" data-index="3"></span>
+                    <span class="pagination-dot" data-index="4"></span>
+                    <span class="pagination-dot" data-index="5"></span>
                 </div>
             </div>
 
-            <!-- 3. Bottom Zone: Кнопка СТАРТ -->
-            <div class="rules-bottom-group">
-                <button id="startBtn" class="cover-play-btn rules-start-btn" type="button" aria-label="СТАРТ">
-                    <img src="assets/rules_btn_start.webp" class="rules-start-btn-img" alt="СТАРТ">
-                </button>
+            <!-- 3. Bottom Buttons: Далее + Пропустить (слайды 0..4) или Старт (слайд 5) -->
+            <div id="rulesBottomBox" class="rules-bottom-box">
+                <div id="dualButtonsGroup" class="rules-buttons-group">
+                    <button id="rulesNextBtn" class="rules-svg-btn rules-btn-next" type="button" aria-label="Далее">
+                        <img src="assets/btn_next.svg" class="rules-btn-img" alt="Далее">
+                    </button>
+                    <button id="rulesSkipBtn" class="rules-svg-btn rules-btn-skip" type="button" aria-label="Пропустить">
+                        <img src="assets/btn_skip.svg" class="rules-btn-img" alt="Пропустить">
+                    </button>
+                </div>
+                <div id="singleStartGroup" class="rules-buttons-group hidden">
+                    <button id="rulesStartBtn" class="rules-svg-btn rules-btn-start" type="button" aria-label="Старт">
+                        <img src="assets/rules_btn_start.webp" class="rules-btn-img rules-btn-img-start" alt="Старт">
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -236,6 +208,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="game.js?v=2.2.0"></script>
+    <script src="game.js?v=2.4.0"></script>
 </body>
 </html>

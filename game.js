@@ -62,7 +62,18 @@ const GAME_CONFIG = {
 
 
 
+
+const RULES_DATA = [
+    { src: 'assets/rules_card_1.webp', alt: 'Правило 1: Время взлетать!' },
+    { src: 'assets/rules_card_2.webp', alt: 'Правило 2: Собирайте блюда' },
+    { src: 'assets/rules_card_3.webp', alt: 'Правило 3: Острые ощущения ×2' },
+    { src: 'assets/rules_card_4.webp', alt: 'Правило 4: Зимой в небе тесно' },
+    { src: 'assets/rules_card_5.webp', alt: 'Правило 5: Сердца не железные' },
+    { src: 'assets/rules_card_6.webp', alt: 'Правило 6: Запах победы' }
+];
+
 class Game {
+
 
 
 
@@ -133,6 +144,8 @@ class Game {
         this.score = 0;
         this.hearts = 3;
         this.targetScore = GAME_CONFIG.targetScore;
+        this.currentRuleIndex = 0;
+        this.totalRules = RULES_DATA.length;
         this.bgScrollX = 0;
 
         // Attempts & best score tracking (1:1 как в игра_ловля)
@@ -374,7 +387,8 @@ class Game {
             icecream: 'assets/food_icecream.webp',
             ramen: 'assets/food_ramen.webp',
             onigiri: 'assets/food_onigiri.webp',
-            bao: 'assets/food_bao.webp'
+            bao: 'assets/food_bao.webp',
+            pikachu: 'assets/food_pikachu.webp'
         };
 
         const imagePromises = [];
@@ -627,12 +641,38 @@ class Game {
 
 
 
-        // 2. Start Button on Rules (03-rules) -> Countdown -> Live Game
+        // 2. Rules Slider Buttons (1:1 как в игра_ловля)
+        attachButton('rulesNextBtn', () => {
+            if (this.currentRuleIndex < this.totalRules - 1) {
+                this.showRuleSlide(this.currentRuleIndex + 1);
+            }
+        });
 
+        attachButton('rulesSkipBtn', () => {
+            this.startCountdown();
+        });
 
+        attachButton('rulesStartBtn', () => {
+            this.startCountdown();
+        });
 
         attachButton('startBtn', () => {
             this.startCountdown();
+        });
+
+        // Touch swiping for rules slider
+        this.initRulesSwipe();
+
+        // Clickable pagination dots
+        const pagination = document.getElementById('rulesPagination');
+        pagination?.addEventListener('click', (e) => {
+            const dot = e.target.closest('.pagination-dot');
+            if (dot && dot.dataset.index !== undefined) {
+                const idx = parseInt(dot.dataset.index, 10);
+                if (!isNaN(idx) && idx >= 0 && idx < this.totalRules) {
+                    this.showRuleSlide(idx);
+                }
+            }
         });
 
         // 3. Pause button on HUD
@@ -964,6 +1004,64 @@ class Game {
         this.state = 'RULES';
         document.getElementById('startScreen')?.classList.add('hidden');
         document.getElementById('rulesScreen')?.classList.remove('hidden');
+        this.showRuleSlide(0);
+    }
+
+    showRuleSlide(index) {
+        this.currentRuleIndex = index;
+        const data = RULES_DATA[index];
+        if (!data) return;
+
+        const slot = document.getElementById('rulesCardSlot');
+        if (slot) {
+            slot.innerHTML = `<img src="${data.src}" class="rules-card-img" alt="${data.alt}">`;
+        }
+
+        const dots = document.querySelectorAll('#rulesPagination .pagination-dot');
+        dots.forEach((dot, i) => {
+            if (i === index) dot.classList.add('active');
+            else dot.classList.remove('active');
+        });
+
+        const dualGroup = document.getElementById('dualButtonsGroup');
+        const startGroup = document.getElementById('singleStartGroup');
+
+        if (index === this.totalRules - 1) {
+            dualGroup?.classList.add('hidden');
+            startGroup?.classList.remove('hidden');
+        } else {
+            dualGroup?.classList.remove('hidden');
+            startGroup?.classList.add('hidden');
+        }
+    }
+
+    initRulesSwipe() {
+        let startX = 0;
+        let startY = 0;
+        const slot = document.getElementById('rulesCardSlot');
+        if (!slot) return;
+
+        slot.addEventListener('touchstart', (e) => {
+            if (e.touches.length === 1) {
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+            }
+        }, { passive: true });
+
+        slot.addEventListener('touchend', (e) => {
+            if (e.changedTouches.length === 1) {
+                const diffX = e.changedTouches[0].clientX - startX;
+                const diffY = e.changedTouches[0].clientY - startY;
+
+                if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+                    if (diffX < 0 && this.currentRuleIndex < this.totalRules - 1) {
+                        this.showRuleSlide(this.currentRuleIndex + 1);
+                    } else if (diffX > 0 && this.currentRuleIndex > 0) {
+                        this.showRuleSlide(this.currentRuleIndex - 1);
+                    }
+                }
+            }
+        }, { passive: true });
     }
 
 
@@ -2298,21 +2396,14 @@ class Game {
 
 
         const trackFoods = [
-
             { type: 'dango', width: 100, height: 94, points: 10 },
-
             { type: 'dimsumFlower', width: 100, height: 95, points: 15 },
-
             { type: 'coinLB', width: 90, height: 90, points: 10 },
-
+            { type: 'pikachu', width: 96, height: 116, points: 25 },
             { type: 'icecream', width: 95, height: 103, points: 10 },
-
             { type: 'ramen', width: 104, height: 99, points: 15 },
-
             { type: 'onigiri', width: 106, height: 83, points: 10 },
-
             { type: 'bao', width: 100, height: 95, points: 10 }
-
         ];
 
 
@@ -2462,79 +2553,32 @@ class Game {
 
 
     collectItem(col) {
-
-
-
         const pts = col.points;
-
-
-
         this.score = Math.min(this.targetScore, this.score + pts);
 
-
-
-        this.addFloatingText(`+${pts}`, col.x, col.y - 10, '#ffd166');
-
-
-
+        const textColor = col.type === 'pikachu' ? '#ffe600' : '#ffd166';
+        this.addFloatingText(`+${pts}`, col.x, col.y - 10, textColor);
         this.updateHUD();
 
-
-
         // Level ceiling reached (300 points) — finish attempt
-
         if (this.score >= this.targetScore) {
-
             setTimeout(() => {
-
                 if (this.state === 'PLAYING') {
-
                     this.triggerEndGame();
-
                 }
-
             }, 300);
-
         }
 
-
-
-
-
-
-
         // Particle stars
-
-
-
-        for (let i = 0; i < 8; i++) {
-
-
-
+        const pCount = col.type === 'pikachu' ? 14 : 8;
+        const pColor = col.type === 'pikachu' ? '#ffe600' : '#ffd166';
+        for (let i = 0; i < pCount; i++) {
             this.particles.push({
-
-
-
                 x: col.x + col.width / 2,
-
-
-
                 y: col.y + col.height / 2,
-
-
-
-                vx: (Math.random() - 0.5) * 6,
-
-
-
-                vy: (Math.random() - 0.5) * 6,
-
-
-
-                color: '#ffd166',
-
-
-
+                vx: (Math.random() - 0.5) * 7,
+                vy: (Math.random() - 0.5) * 7,
+                color: pColor,
                 radius: Math.random() * 3 + 1.5,
 
 
