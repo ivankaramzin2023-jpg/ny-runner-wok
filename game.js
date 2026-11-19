@@ -126,26 +126,24 @@ class Game {
 
 
         // State: 'START' | 'RULES' | 'COUNTDOWN' | 'PLAYING' | 'PAUSED' | 'ENDED'
-
-
-
         this.state = 'START';
 
-
-
-
-
-
-
         // Gameplay state
-
-
-
         this.score = 0;
         this.hearts = 3;
         this.targetScore = GAME_CONFIG.targetScore;
+
+        // Rules slider DOM & state (1:1 из игра 3 в ряд)
         this.currentRuleIndex = 0;
         this.totalRules = RULES_DATA.length;
+        this.rulesCardSlot = document.getElementById('rulesCardSlot');
+        this.rulesPagination = document.getElementById('rulesPagination');
+        this.dualButtonsGroup = document.getElementById('dualButtonsGroup');
+        this.singleStartGroup = document.getElementById('singleStartGroup');
+        this.rulesNextBtn = document.getElementById('rulesNextBtn');
+        this.rulesSkipBtn = document.getElementById('rulesSkipBtn');
+        this.rulesStartBtn = document.getElementById('rulesStartBtn');
+
         this.bgScrollX = 0;
 
         // Attempts & best score tracking (1:1 как в игра_ловля)
@@ -641,39 +639,63 @@ class Game {
 
 
 
-        // 2. Rules Slider Buttons (1:1 как в игра_ловля)
-        attachButton('rulesNextBtn', () => {
-            if (this.currentRuleIndex < this.totalRules - 1) {
-                this.showRuleSlide(this.currentRuleIndex + 1);
-            }
-        });
-
-        attachButton('rulesSkipBtn', () => {
-            this.startCountdown();
-        });
-
-        attachButton('rulesStartBtn', () => {
-            this.startCountdown();
-        });
-
-        attachButton('startBtn', () => {
-            this.startCountdown();
-        });
-
-        // Touch swiping for rules slider
-        this.initRulesSwipe();
-
-        // Clickable pagination dots
-        const pagination = document.getElementById('rulesPagination');
-        pagination?.addEventListener('click', (e) => {
-            const dot = e.target.closest('.pagination-dot');
-            if (dot && dot.dataset.index !== undefined) {
-                const idx = parseInt(dot.dataset.index, 10);
-                if (!isNaN(idx) && idx >= 0 && idx < this.totalRules) {
-                    this.showRuleSlide(idx);
+        // 2. Rules Slider Buttons (1:1 из игра 3 в ряд)
+        if (this.rulesNextBtn) {
+            this.rulesNextBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.currentRuleIndex < this.totalRules - 1) {
+                    this.showRuleSlide(this.currentRuleIndex + 1);
                 }
-            }
-        });
+            });
+        }
+
+        if (this.rulesSkipBtn) {
+            this.rulesSkipBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.startCountdown();
+            });
+        }
+
+        if (this.rulesStartBtn) {
+            this.rulesStartBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.startCountdown();
+            });
+        }
+
+        // Click on dots (1:1 из игра 3 в ряд)
+        if (this.rulesPagination) {
+            const dots = this.rulesPagination.querySelectorAll('.pagination-dot');
+            dots.forEach((dot, idx) => {
+                dot.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.showRuleSlide(idx);
+                });
+            });
+        }
+
+        // Swipe support on rules card slot (1:1 из игра 3 в ряд)
+        if (this.rulesCardSlot) {
+            let touchRulesX = 0;
+            this.rulesCardSlot.addEventListener('touchstart', (e) => {
+                touchRulesX = e.touches[0].clientX;
+            }, { passive: true });
+
+            this.rulesCardSlot.addEventListener('touchend', (e) => {
+                const diffX = touchRulesX - e.changedTouches[0].clientX;
+                if (Math.abs(diffX) > 40) {
+                    if (diffX > 0 && this.currentRuleIndex < this.totalRules - 1) {
+                        this.showRuleSlide(this.currentRuleIndex + 1);
+                    } else if (diffX < 0 && this.currentRuleIndex > 0) {
+                        this.showRuleSlide(this.currentRuleIndex - 1);
+                    }
+                }
+            }, { passive: true });
+        }
 
         // 3. Pause button on HUD
         attachButton('pauseBtn', () => {
@@ -1008,60 +1030,43 @@ class Game {
     }
 
     showRuleSlide(index) {
+        if (index < 0 || index >= this.totalRules) return;
         this.currentRuleIndex = index;
         const data = RULES_DATA[index];
-        if (!data) return;
 
-        const slot = document.getElementById('rulesCardSlot');
-        if (slot) {
-            slot.innerHTML = `<img src="${data.src}" class="rules-card-img" alt="${data.alt}">`;
+        if (!this.rulesCardSlot) {
+            this.rulesCardSlot = document.getElementById('rulesCardSlot');
+        }
+        if (this.rulesCardSlot) {
+            const existingImg = this.rulesCardSlot.querySelector('.rules-card-img');
+            if (!existingImg || existingImg.getAttribute('src') !== data.src) {
+                this.rulesCardSlot.innerHTML = `<img src="${data.src}" class="rules-card-img" alt="${data.alt}">`;
+            }
         }
 
-        const dots = document.querySelectorAll('#rulesPagination .pagination-dot');
-        dots.forEach((dot, i) => {
-            if (i === index) dot.classList.add('active');
-            else dot.classList.remove('active');
-        });
+        // Update pagination dots (1:1 из игра 3 в ряд)
+        if (!this.rulesPagination) {
+            this.rulesPagination = document.getElementById('rulesPagination');
+        }
+        if (this.rulesPagination) {
+            const dots = this.rulesPagination.querySelectorAll('.pagination-dot');
+            dots.forEach((dot, i) => {
+                if (i === index) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        }
 
-        const dualGroup = document.getElementById('dualButtonsGroup');
-        const startGroup = document.getElementById('singleStartGroup');
+        // Toggle buttons (Next+Skip on slides 0..totalRules-2, Start on last slide totalRules-1)
+        if (!this.dualButtonsGroup) this.dualButtonsGroup = document.getElementById('dualButtonsGroup');
+        if (!this.singleStartGroup) this.singleStartGroup = document.getElementById('singleStartGroup');
 
         if (index === this.totalRules - 1) {
-            dualGroup?.classList.add('hidden');
-            startGroup?.classList.remove('hidden');
+            if (this.dualButtonsGroup) this.dualButtonsGroup.classList.add('hidden');
+            if (this.singleStartGroup) this.singleStartGroup.classList.remove('hidden');
         } else {
-            dualGroup?.classList.remove('hidden');
-            startGroup?.classList.add('hidden');
+            if (this.dualButtonsGroup) this.dualButtonsGroup.classList.remove('hidden');
+            if (this.singleStartGroup) this.singleStartGroup.classList.add('hidden');
         }
-    }
-
-    initRulesSwipe() {
-        let startX = 0;
-        let startY = 0;
-        const slot = document.getElementById('rulesCardSlot');
-        if (!slot) return;
-
-        slot.addEventListener('touchstart', (e) => {
-            if (e.touches.length === 1) {
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
-            }
-        }, { passive: true });
-
-        slot.addEventListener('touchend', (e) => {
-            if (e.changedTouches.length === 1) {
-                const diffX = e.changedTouches[0].clientX - startX;
-                const diffY = e.changedTouches[0].clientY - startY;
-
-                if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
-                    if (diffX < 0 && this.currentRuleIndex < this.totalRules - 1) {
-                        this.showRuleSlide(this.currentRuleIndex + 1);
-                    } else if (diffX > 0 && this.currentRuleIndex > 0) {
-                        this.showRuleSlide(this.currentRuleIndex - 1);
-                    }
-                }
-            }
-        }, { passive: true });
     }
 
 

@@ -176,32 +176,32 @@
             </div>
         </div>
 
-        <!-- SCREEN 5: Финальный экран "СПАСИБО ЗА ВИЗИТ!" (1:1 по макету) -->
-        <div id="finalScreen" class="final-screen-container hidden">
-            <!-- Полноэкранный фон (небо, матовая плашка и нижние сугробы) -->
-            <img src="assets/final_screen_bg.webp" class="final-screen-bg" alt="Фон финала">
-
-            <!-- Верхняя праздничная лента "СПАСИБО ЗА ВИЗИТ!" -->
-            <div class="final-top-box">
-                <img src="assets/final_title_banner.webp" class="final-ribbon-banner" alt="Спасибо за визит!">
+        <!-- SCREEN 5: Финальный экран "СПАСИБО ЗА ВИЗИТ!" (1:1 по макету, архитектура как на первом экране) -->
+        <div id="finalScreen" class="cover-elements-container final-screen-container hidden">
+            <!-- 1. Верхняя праздничная лента "СПАСИБО ЗА ВИЗИТ!" -->
+            <div class="cover-top-box final-top-box">
+                <img src="assets/final_title_banner.webp" class="cover-ribbon-banner final-ribbon-banner" alt="Спасибо за визит!">
             </div>
 
-            <!-- Персонаж: Дед Мороз в воздушном шаре-воке с картой LB -->
+            <!-- 2. Персонаж: Дед Мороз в воздушном шаре-воке с черной картой LB (масштаб и позиция как на 1-м экране) -->
             <div class="final-santa-wrapper">
                 <img src="assets/final_santa_balloon.webp" class="final-santa-img" alt="Дед Мороз в воке с картой LB Бонус">
             </div>
 
-            <!-- Нижняя область контента плашки: тексты и кнопка "ВЫЙТИ" -->
-            <div class="final-content-area">
-                <div class="final-text-group">
-                    <h2 class="final-heading">Бонусы уже на карте<br>лояльности!<br>Ждем вас снова!</h2>
-                    <p class="final-subheading">Играйте и получайте бонусы. Каждый визит в ресторан открывает следующую игру</p>
-                    <p class="final-footnote">Списывайте до 20% от стоимости заказа в любом проекте LB Бонус до 31.01</p>
-                </div>
-                <div class="final-btn-wrapper">
-                    <button id="btnFinalExit" class="final-exit-btn" type="button" aria-label="ВЫЙТИ">
-                        <img src="assets/final_btn_exit.webp" class="final-btn-exit-img" alt="ВЫЙТИ">
-                    </button>
+            <!-- 3. Нижняя матовая плашка с контентом (как на 1-м экране) -->
+            <div class="cover-bottom-plate-box final-bottom-plate-box">
+                <img src="assets/final_plate.webp" class="cover-plate-bg final-plate-bg" alt="Плашка">
+                <div class="final-plate-content">
+                    <div class="final-text-group">
+                        <h2 class="final-heading">Бонусы уже на карте<br>лояльности!<br>Ждем вас снова!</h2>
+                        <p class="final-subheading">Играйте и получайте бонусы. Каждый визит в ресторан открывает следующую игру</p>
+                        <p class="final-footnote">Списывайте до 20% от стоимости заказа в любом проекте LB Бонус до 31.01</p>
+                    </div>
+                    <div class="final-btn-wrapper">
+                        <button id="btnFinalExit" class="final-exit-btn" type="button" aria-label="ВЫЙТИ">
+                            <img src="assets/final_btn_exit.webp" class="final-btn-exit-img" alt="ВЫЙТИ">
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
