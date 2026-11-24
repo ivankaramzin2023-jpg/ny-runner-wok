@@ -461,8 +461,7 @@ iframe[src*="netlify"] {
 }
 
 .rules-card-slot {
-    width: min(312px, 82vw);
-    max-height: clamp(200px, 34vh, 312px);
+    width: min(326px, 84vw);
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -730,7 +729,7 @@ iframe[src*="netlify"] {
 }
 
 .result-action-btn:nth-child(2) {
-    margin-top: -18px;
+    margin-top: -30px;
 }
 
 .result-btn-img {
