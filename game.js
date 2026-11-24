@@ -2413,14 +2413,14 @@ class Game {
 
 
         const trackFoods = [
-            { type: 'dango', width: 100, height: 94, points: 10 },
+            { type: 'dango', width: 100, height: 94, points: 15 },
             { type: 'dimsumFlower', width: 100, height: 95, points: 15 },
-            { type: 'coinLB', width: 90, height: 90, points: 10 },
-            { type: 'pikachu', width: 96, height: 116, points: 25 },
-            { type: 'icecream', width: 95, height: 103, points: 10 },
+            { type: 'coinLB', width: 90, height: 90, points: 15 },
+            { type: 'pikachu', width: 96, height: 116, points: 15 },
+            { type: 'icecream', width: 95, height: 103, points: 15 },
             { type: 'ramen', width: 104, height: 99, points: 15 },
-            { type: 'onigiri', width: 106, height: 83, points: 10 },
-            { type: 'bao', width: 100, height: 95, points: 10 }
+            { type: 'onigiri', width: 106, height: 83, points: 15 },
+            { type: 'bao', width: 100, height: 95, points: 15 }
         ];
 
 
@@ -2570,7 +2570,8 @@ class Game {
 
 
     collectItem(col) {
-        const pts = col.points;
+        // Фиксированно +15 баллов за каждый пойманный элемент, максимум 300 баллов
+        const pts = 15;
         this.score = Math.min(this.targetScore, this.score + pts);
 
         const textColor = col.type === 'pikachu' ? '#ffe600' : '#ffd166';
