@@ -120,13 +120,16 @@ iframe[src*="netlify"] {
     position: relative;
     width: 100%;
     height: 100%;
-    min-height: 100%;
-    min-height: 100dvh;
-    min-height: -webkit-fill-available;
-    max-width: 100vw;
+    height: 100dvh;
+    height: var(--app-height, 100dvh);
+    max-height: 100dvh;
+    max-height: var(--app-height, 100dvh);
+    aspect-ratio: 390 / 844;
+    max-width: min(430px, 100vw);
     background: #7bb5e8;
     overflow: hidden;
     margin: 0 auto;
+    box-shadow: 0 0 45px rgba(10, 45, 90, 0.25);
 }
 
 /* Universal Background Sky (Permanent, stable, zero repaint) */
@@ -458,7 +461,8 @@ iframe[src*="netlify"] {
 }
 
 .rules-card-slot {
-    width: min(324px, 84vw);
+    width: min(312px, 82vw);
+    max-height: clamp(200px, 34vh, 312px);
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -538,11 +542,11 @@ iframe[src*="netlify"] {
 }
 
 .rules-btn-skip {
-    margin-top: -38px;
+    margin-top: -34px;
 }
 
 .rules-btn-img {
-    width: min(358px, 94vw);
+    width: min(326px, 86vw);
     height: auto;
     object-fit: contain;
     display: block;
