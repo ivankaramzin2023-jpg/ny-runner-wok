@@ -1,7 +1,11 @@
-// 100% Full-Screen Dynamic Viewport Handler (Tilda Zero Block equivalent)
+// 100% Full-Screen Dynamic Viewport Handler for iOS Safari / Telegram Webview / Mobile Browsers
 function updateAppDimensions() {
-    const vh = window.innerHeight;
-    const vw = window.innerWidth;
+    // In iOS Safari and Telegram Webview, window.visualViewport gives the true visible area
+    // excluding the browser toolbars (top address bar and bottom navigation toolbar)
+    const vv = window.visualViewport;
+    const vh = (vv && vv.height) ? Math.round(vv.height) : window.innerHeight;
+    const vw = (vv && vv.width) ? Math.round(vv.width) : window.innerWidth;
+
     document.documentElement.style.setProperty('--app-height', vh + 'px');
     document.documentElement.style.setProperty('--app-width', vw + 'px');
 
@@ -11,6 +15,11 @@ function updateAppDimensions() {
     const safeW = Math.max(280, vw - 16);
     const scale = Math.min(1.0, safeW / 360, safeH / 650);
     document.documentElement.style.setProperty('--rules-scale', scale.toFixed(3));
+}
+
+if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', updateAppDimensions);
+    window.visualViewport.addEventListener('scroll', updateAppDimensions);
 }
 window.addEventListener('resize', updateAppDimensions);
 window.addEventListener('orientationchange', () => setTimeout(updateAppDimensions, 100));
