@@ -402,7 +402,7 @@ iframe[src*="netlify"] {
 }
 
 /* ========================================================
-   SCREEN 2: ЭКРАН ПРАВИЛ (1:1 из игра_ловля)
+   SCREEN 2: ЭКРАН ПРАВИЛ
    ======================================================== */
 .rules-screen-container {
     position: absolute;
@@ -444,7 +444,6 @@ iframe[src*="netlify"] {
     flex-shrink: 0;
     pointer-events: none;
     filter: drop-shadow(0 6px 16px rgba(10, 45, 90, 0.20));
-    image-rendering: -webkit-optimize-contrast;
 }
 
 .rules-card-container {
@@ -461,7 +460,7 @@ iframe[src*="netlify"] {
 }
 
 .rules-card-slot {
-    width: min(326px, 84vw);
+    width: min(324px, 84vw);
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -541,11 +540,11 @@ iframe[src*="netlify"] {
 }
 
 .rules-btn-skip {
-    margin-top: -34px;
+    margin-top: -38px;
 }
 
 .rules-btn-img {
-    width: min(326px, 86vw);
+    width: min(358px, 94vw);
     height: auto;
     object-fit: contain;
     display: block;
@@ -564,8 +563,9 @@ iframe[src*="netlify"] {
     filter: brightness(0.95);
 }
 
+
 /* ========================================================
-   SCREEN 4: RESULT SCREEN (Размер плашек и кнопок 1:1 из игра 3 в ряд)
+   SCREEN 4: RESULT SCREEN (1:1 из игра_ловля)
    ======================================================== */
 .result-screen-container {
     position: absolute;
@@ -578,8 +578,8 @@ iframe[src*="netlify"] {
     align-items: center;
     justify-content: space-between;
     padding-top: calc(max(8px, env(safe-area-inset-top)) + 2px);
-    padding-bottom: calc(max(26px, env(safe-area-inset-bottom)) + 18px);
-    animation: fadeInScreen 0.28s ease-out;
+    padding-bottom: calc(max(14px, env(safe-area-inset-bottom)) + 6px);
+    animation: fadeInScreen 0.3s ease-out forwards;
     pointer-events: auto;
 }
 
@@ -603,7 +603,7 @@ iframe[src*="netlify"] {
     filter: drop-shadow(0 6px 16px rgba(10, 45, 90, 0.20));
 }
 
-/* Центральная плашка набранных баллов (1:1 из игра 3 в ряд) */
+/* Центральная плашка */
 .result-card-container {
     flex: 1;
     width: 100%;
@@ -647,7 +647,6 @@ iframe[src*="netlify"] {
     padding-top: 26%;
 }
 
-/* Строка динамического счета "+300" и большая монетка */
 .result-score-row {
     display: flex;
     align-items: center;
@@ -677,7 +676,6 @@ iframe[src*="netlify"] {
     flex-shrink: 0;
 }
 
-/* Блок статистики: Осталось попыток / Лучший результат */
 .result-stats-block {
     display: flex;
     flex-direction: column;
@@ -696,7 +694,6 @@ iframe[src*="netlify"] {
     text-align: center;
 }
 
-/* Нижний блок кнопок */
 .result-bottom-box {
     width: 100%;
     display: flex;
@@ -718,18 +715,8 @@ iframe[src*="netlify"] {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: min(348px, 90vw);
+    width: min(358px, 94vw);
     transition: transform 0.12s ease, filter 0.12s ease;
-    -webkit-tap-highlight-color: transparent;
-}
-
-.result-action-btn:active {
-    transform: scale(0.96);
-    filter: brightness(0.95);
-}
-
-.result-action-btn:nth-child(2) {
-    margin-top: -30px;
 }
 
 .result-btn-img {
@@ -738,6 +725,16 @@ iframe[src*="netlify"] {
     object-fit: contain;
     display: block;
     pointer-events: none;
+}
+
+.result-btn-retry,
+.result-action-btn:nth-child(2) {
+    margin-top: -38px;
+}
+
+.result-action-btn:active {
+    transform: scale(0.96);
+    filter: brightness(0.95);
 }
 
 
