@@ -231,18 +231,20 @@ iframe[src*="netlify"] {
     z-index: 6;
     flex-shrink: 0;
     pointer-events: none;
-    overflow: visible;
+    overflow: hidden;
+    border-radius: 0 0 36px 36px;
+    box-shadow: 0 6px 18px rgba(10, 45, 90, 0.14);
 }
 
 .cover-ribbon-banner {
     width: 100%;
     max-width: 100%;
-    height: auto;
+    height: clamp(166px, 22vh, 212px);
     object-fit: cover;
+    object-position: center bottom;
     display: block;
     flex-shrink: 0;
     pointer-events: none;
-    filter: drop-shadow(0 6px 16px rgba(10, 45, 90, 0.20));
 }
 
 .cover-santa-wrapper {
@@ -439,17 +441,20 @@ iframe[src*="netlify"] {
     z-index: 11;
     flex-shrink: 0;
     pointer-events: none;
+    overflow: hidden;
+    border-radius: 0 0 36px 36px;
+    box-shadow: 0 6px 18px rgba(10, 45, 90, 0.14);
 }
 
 .rules-ribbon-banner {
     width: 100%;
     max-width: 100%;
-    height: auto;
+    height: clamp(138px, 19vh, 190px);
     object-fit: cover;
+    object-position: center bottom;
     display: block;
     flex-shrink: 0;
     pointer-events: none;
-    filter: drop-shadow(0 6px 16px rgba(10, 45, 90, 0.20));
 }
 
 .rules-card-container {
@@ -459,14 +464,15 @@ iframe[src*="netlify"] {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 8px;
+    padding: 8px 8px 0;
     margin-top: 0;
     margin-bottom: 0;
     z-index: 12;
+    min-height: 0;
 }
 
 .rules-card-slot {
-    width: min(324px, 84vw);
+    width: min(324px, 84vw, 43vh);
     aspect-ratio: 1 / 1;
     display: flex;
     align-items: center;
@@ -598,15 +604,18 @@ iframe[src*="netlify"] {
     flex-shrink: 0;
     pointer-events: none;
     z-index: 12;
+    overflow: hidden;
+    border-radius: 0 0 36px 36px;
+    box-shadow: 0 6px 18px rgba(10, 45, 90, 0.14);
 }
 
 .result-ribbon-banner {
     width: 100%;
     max-width: 100%;
-    height: auto;
+    height: clamp(138px, 19vh, 190px);
     object-fit: cover;
+    object-position: center bottom;
     display: block;
-    filter: drop-shadow(0 6px 16px rgba(10, 45, 90, 0.20));
 }
 
 /* Центральная плашка */
@@ -1006,14 +1015,17 @@ iframe[src*="netlify"] {
     padding-top: 0;
     z-index: 10;
     pointer-events: none;
+    overflow: hidden;
+    border-radius: 0 0 36px 36px;
+    box-shadow: 0 6px 18px rgba(10, 45, 90, 0.14);
 }
 
 .exit-ribbon-banner {
     width: 100%;
     max-width: 100%;
-    height: auto;
+    height: clamp(166px, 22vh, 212px);
     object-fit: cover;
-    filter: drop-shadow(0 8px 20px rgba(10, 45, 90, 0.22));
+    object-position: center bottom;
     display: block;
 }
 
