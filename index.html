@@ -8,7 +8,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#7bb5e8">
     <title>Новогодняя Игра — Полет Деда Мороза на воке</title>
-    <link rel="stylesheet" href="style.css?v=4.0.0">
+    <link rel="stylesheet" href="style.css?v=5.0.0">
     <!-- Non-blocking high performance font loading (instant page load on mobile) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Oranienbaum&family=Rubik:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&display=swap">
     </noscript>
     <!-- Preload critical screen transition assets for 100% flicker-free navigation -->
-    <link rel="preload" as="image" href="assets/rules_title_banner.webp?v=3.2.0">
+    <link rel="preload" as="image" href="assets/header_rules.png?v=5.0.0">
     <link rel="preload" as="image" href="assets/rules_card_1.webp">
     <link rel="preload" as="image" href="assets/rules_card_2.webp">
     <link rel="preload" as="image" href="assets/rules_card_3.webp">
@@ -62,7 +62,7 @@
         <!-- SCREEN 1: Cover Screen -->
         <div id="startScreen" class="cover-elements-container">
             <div class="cover-top-box">
-                <img src="assets/cover_title_banner.webp" class="cover-ribbon-banner" alt="Новогодняя Игра">
+                <img src="assets/header_cover.png?v=5.0.0" class="cover-ribbon-banner" alt="Новогодняя Игра">
             </div>
             <div class="cover-santa-wrapper">
                 <div class="santa-glow-circle"></div>
@@ -72,8 +72,8 @@
                 <img src="assets/cover_plate.webp" class="cover-plate-bg" alt="Плашка">
                 <div class="cover-plate-content">
                     <div class="cover-text-group">
-                        <img src="assets/cover_title.webp?v=3.1.0" class="cover-title-img" alt="Играйте и получайте бонусы">
-                        <img src="assets/cover_subtitle.webp?v=3.1.0" class="cover-subtitle-img" alt="Каждый визит в ресторан открывает следующую игру">
+                        <img src="assets/cover_title_v2.png?v=5.0.0" class="cover-title-img" alt="Выигрывайте до 300 БОНУСОВ!">
+                        <img src="assets/cover_subtitle_v2.png?v=5.0.0" class="cover-subtitle-img" alt="Ловите блюда, облетайте препятствия и получите шанс пополнить карту LB Бонус">
                     </div>
                     <button id="playBtn" class="cover-play-btn" type="button" aria-label="ИГРАТЬ">
                         <img src="assets/cover_btn_play.webp?v=3.4.0" class="cover-play-btn-img" alt="ИГРАТЬ">
@@ -85,7 +85,7 @@
         <div id="rulesScreen" class="rules-screen-container hidden">
             <!-- 1. Top Ribbon Banner -->
             <div class="rules-top-box">
-                <img src="assets/rules_title_banner.webp?v=3.2.0" class="rules-ribbon-banner" alt="Правила">
+                <img src="assets/header_rules.png?v=5.0.0" class="rules-ribbon-banner" alt="Пробный полёт">
             </div>
 
             <!-- 2. Central Card Slider & Pagination Dots -->
@@ -144,9 +144,9 @@
             <!-- Зимняя ель слева (Figma 1:1) -->
             <img src="assets/rules_fir_tree.webp" class="rules-fir-tree" alt="Елка">
 
-            <!-- Верхняя лента "УРОВЕНЬ: ЧЕМПИОН" -->
+            <!-- Верхняя лента "УРОВЕНЬ: СТАРТ" -->
             <div class="result-top-box">
-                <img src="assets/result_title_banner.webp" class="result-ribbon-banner" alt="Уровень: Чемпион">
+                <img src="assets/header_result.png?v=5.0.0" class="result-ribbon-banner" alt="Уровень: Старт">
             </div>
 
             <!-- Центральная плашка с блюдами и динамическими баллами -->
@@ -183,7 +183,7 @@
         <div id="finalScreen" class="exit-screen-container hidden">
             <!-- Верхняя праздничная лента "СПАСИБО ЗА ВИЗИТ!" -->
             <div class="exit-ribbon-wrapper">
-                <img src="assets/final_title_banner.webp?v=3.0.0" class="exit-ribbon-banner" alt="Спасибо за визит!">
+                <img src="assets/header_final.png?v=5.0.0" class="exit-ribbon-banner" alt="Спасибо за визит!">
             </div>
 
             <!-- Персонаж: Дед Мороз в воздушном шаре-воке с черной картой LB -->
@@ -210,6 +210,6 @@
     </div>
 
     <!-- Scripts -->
-    <script src="game.js?v=4.0.0"></script>
+    <script src="game.js?v=5.0.0"></script>
 </body>
 </html>
